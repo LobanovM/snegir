@@ -1,5 +1,6 @@
 ﻿using Snegir.Core.Entities;
-using Snegir.Core.Repositories;
+using Snegir.Core.Interfaces;
+using Snegir.Core.Types;
 
 namespace Snegir.Core.Services
 {
@@ -7,13 +8,13 @@ namespace Snegir.Core.Services
     {
         #region Fields
 
-        private readonly IContentRepository _repository;
+        private readonly IRepository<Content> _repository;
 
         #endregion
 
         #region Constructors
 
-        public ContentService(IContentRepository repository)
+        public ContentService(IRepository<Content> repository)
         {
             _repository = repository;
         }
@@ -22,9 +23,9 @@ namespace Snegir.Core.Services
 
         #region Public
 
-        public Content GetNextContent()
+        public Content? GetFirstUnrated()
         {
-            return _repository.GetAll().FirstOrDefault();
+            return _repository.Get(c => c.Rating == Rating.None).FirstOrDefault();
         }
 
         #endregion

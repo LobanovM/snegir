@@ -1,4 +1,4 @@
-﻿using Snegir.Core.Repositories;
+﻿using Snegir.Core.Interfaces;
 using Snegir.Core.Services;
 using Moq;
 using Snegir.Core.Entities;
@@ -15,8 +15,8 @@ namespace Snegir.Core.UnitTest.Services
         [Test]
         public void GetNextContent_CheckResult()
         {
-            var repo = new Mock<IContentRepository>();
-            repo.Setup(i => i.GetAll()).Returns(new[] 
+            var repo = new Mock<IRepository<Content>>();
+            repo.Setup(i => i.Get()).Returns(new[] 
             { 
                 new Content { Name = "pic1" }, 
                 new Content { Name = "pic2" } 
@@ -24,7 +24,7 @@ namespace Snegir.Core.UnitTest.Services
 
             var service = new ContentService(repo.Object);
 
-            var content = service.GetNextContent();
+            var content = service.GetFirstUnrated();
 
             Assert.That(content, !Is.Null);
             Assert.That(content.Name, !Is.Null);
