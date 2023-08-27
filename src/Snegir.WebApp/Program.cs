@@ -13,6 +13,7 @@ namespace Snegir.WebApp
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddReact();
             builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
+            builder.Services.AddControllers();
 
             var app = builder.Build();
 
@@ -21,6 +22,12 @@ namespace Snegir.WebApp
             app.UseReact(config => { });
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.Run();
         }

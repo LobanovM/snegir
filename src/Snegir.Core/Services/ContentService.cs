@@ -28,6 +28,11 @@ namespace Snegir.Core.Services
             return _repository.Get(c => c.Rating == Rating.None).FirstOrDefault();
         }
 
+        public IEnumerable<Content> GetAll()
+        {
+            return _repository.Get();
+        }
+
         #endregion
     }
 }
