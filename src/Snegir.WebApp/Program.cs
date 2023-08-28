@@ -35,14 +35,15 @@ namespace Snegir.WebApp
                 builder.Services.AddReact();
                 builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
                 builder.Services.AddControllers();
+                builder.Services.AddSwaggerGen();
 
                 var app = builder.Build();
 
                 if (app.Environment.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
-                   // app.UseSwagger();
-                   // app.UseSwaggerUI();
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
                 }
 
                 app.UseSerilogRequestLogging();
