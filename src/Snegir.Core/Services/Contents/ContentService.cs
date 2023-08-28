@@ -2,9 +2,9 @@
 using Snegir.Core.Interfaces;
 using Snegir.Core.Types;
 
-namespace Snegir.Core.Services
+namespace Snegir.Core.Services.Contents
 {
-    public class ContentService
+    public class ContentService : IContentService
     {
         #region Fields
 
@@ -28,9 +28,9 @@ namespace Snegir.Core.Services
             return _repository.Get(c => c.Rating == Rating.None).FirstOrDefault();
         }
 
-        public IEnumerable<Content> GetAll()
+        public async Task<IEnumerable<Content>> GetAll()
         {
-            return _repository.Get();
+            return await _repository.Get();
         }
 
         #endregion

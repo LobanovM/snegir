@@ -10,7 +10,7 @@ using Snegir.DAL;
 
 namespace Snegir.DAL.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(EFApplicationContext))]
     [Migration("20230827145433_RenameContentRateToRating")]
     partial class RenameContentRateToRating
     {

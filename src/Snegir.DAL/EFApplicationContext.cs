@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Snegir.Core.Entities;
+using Snegir.Core.Interfaces;
 
 namespace Snegir.DAL
 {
-    public class ApplicationContext: DbContext
+    public class EFApplicationContext: DbContext
     {
         public DbSet<Content> Contents { get; set; } = null!;
 

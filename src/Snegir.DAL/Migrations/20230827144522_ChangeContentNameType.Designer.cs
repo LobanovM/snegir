@@ -10,7 +10,7 @@ using Snegir.DAL;
 
 namespace Snegir.DAL.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(EFApplicationContext))]
     [Migration("20230827144522_ChangeContentNameType")]
     partial class ChangeContentNameType
     {

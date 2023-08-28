@@ -1,5 +1,5 @@
 ﻿using Snegir.Core.Interfaces;
-using Snegir.Core.Services;
+using Snegir.Core.Services.Contents;
 using Moq;
 using Snegir.Core.Entities;
 using System.Linq.Expressions;

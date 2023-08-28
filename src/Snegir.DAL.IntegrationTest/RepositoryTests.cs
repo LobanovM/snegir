@@ -13,7 +13,7 @@ namespace Snegir.DAL.IntegrationTest
         [Test]
         public void Get_CheckResult()
         {
-            IRepository<Content> repo = new EFRepository<Content>(new ApplicationContext());
+            IRepository<Content> repo = new EFRepository<Content>(new EFApplicationContext());
 
             var contents = repo.Get();
 

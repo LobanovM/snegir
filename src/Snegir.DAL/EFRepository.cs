@@ -10,15 +10,15 @@ namespace Snegir.DAL
         DbContext _context;
         DbSet<TEntity> _dbSet;
 
-        public EFRepository(DbContext context)
+        public EFRepository(EFApplicationContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
         }
 
-        public IEnumerable<TEntity> Get()
+        public async Task<IEnumerable<TEntity>> Get()
         {
-            return _dbSet.AsNoTracking().ToList();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
         public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)

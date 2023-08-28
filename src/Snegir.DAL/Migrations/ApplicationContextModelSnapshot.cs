@@ -9,7 +9,7 @@ using Snegir.DAL;
 
 namespace Snegir.DAL.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(EFApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

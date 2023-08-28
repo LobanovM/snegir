@@ -1,6 +1,9 @@
 using React.AspNet;
 using JavaScriptEngineSwitcher.ChakraCore;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Snegir.WebApp.Util;
 
 namespace Snegir.WebApp
 {
@@ -9,6 +12,10 @@ namespace Snegir.WebApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacModule()));
+
             builder.Services.AddMemoryCache();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddReact();
