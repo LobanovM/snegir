@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{B0085CC8-92E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{9F4366D7-BD2F-406E-B04F-1151E32AB1C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snegir.DAL.IntegrationTest", "Snegir.DAL.IntegrationTest\Snegir.DAL.IntegrationTest.csproj", "{0E75D9F6-28E9-4FBF-B99E-167AE02DB880}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snegir.DAL.IntegrationTest", "Snegir.DAL.IntegrationTest\Snegir.DAL.IntegrationTest.csproj", "{0E75D9F6-28E9-4FBF-B99E-167AE02DB880}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snegir.Core.IntegrationTest", "Snegir.Core.IntegrationTest\Snegir.Core.IntegrationTest.csproj", "{A9898FB7-DDBF-4114-B38E-73FB3C976A84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{0E75D9F6-28E9-4FBF-B99E-167AE02DB880}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E75D9F6-28E9-4FBF-B99E-167AE02DB880}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E75D9F6-28E9-4FBF-B99E-167AE02DB880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9898FB7-DDBF-4114-B38E-73FB3C976A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9898FB7-DDBF-4114-B38E-73FB3C976A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9898FB7-DDBF-4114-B38E-73FB3C976A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9898FB7-DDBF-4114-B38E-73FB3C976A84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{A8F8B8ED-3BA3-4BD9-B3F8-2EEFA252DA99} = {9F4366D7-BD2F-406E-B04F-1151E32AB1C4}
 		{4DEDE9DE-43B2-4B01-BCC4-1E53B0F15D5A} = {BD89796C-5D85-43C4-A527-1C5F7B51A850}
 		{0E75D9F6-28E9-4FBF-B99E-167AE02DB880} = {BD89796C-5D85-43C4-A527-1C5F7B51A850}
+		{A9898FB7-DDBF-4114-B38E-73FB3C976A84} = {BD89796C-5D85-43C4-A527-1C5F7B51A850}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F4CF56BF-2F20-408F-888D-90C235A443A9}
