@@ -7,8 +7,6 @@ using Snegir.WebApp.Util;
 using Serilog;
 using Hangfire;
 using Hangfire.PostgreSql;
-using Autofac.Core;
-using Microsoft.Extensions.Configuration;
 
 namespace Snegir.WebApp
 {

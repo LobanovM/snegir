@@ -13,6 +13,7 @@ namespace Snegir.WebApp.Util
             builder.RegisterType<ContentService>().As<IContentService>();
 
             builder.RegisterType<EFRepository<Content>>().As<IRepository<Content>>().WithParameter("context", new EFApplicationContext());
+            builder.RegisterType<EFRepository<Storage>>().As<IRepository<Storage>>().WithParameter("context", new EFApplicationContext());
         }
     }
 }

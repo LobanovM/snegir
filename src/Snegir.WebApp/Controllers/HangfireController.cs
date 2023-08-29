@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Mvc;
+using Snegir.Core.Services.Contents;
 
 namespace Snegir.WebApp.Controllers
 {
@@ -7,25 +8,22 @@ namespace Snegir.WebApp.Controllers
     {
         private IBackgroundJobClient _backgroundJobClient;
         private IRecurringJobManager _recurringJobManager;
+        private IContentService _contentService;
 
         public HangfireController(IBackgroundJobClient backgroundJobClient,
-            IRecurringJobManager recurringJobManager)
+            IRecurringJobManager recurringJobManager, IContentService contentService)
         {
             _backgroundJobClient = backgroundJobClient;
             _recurringJobManager = recurringJobManager;
+            _contentService = contentService;
         }
 
         [HttpGet]
         [Route("UpdateFromStorage")]
         public ActionResult UpdateFromStorage()
         {
-            _backgroundJobClient.Enqueue(() => Test());
+            _backgroundJobClient.Enqueue(() => _contentService.UploadFromStorage());
             return Ok();
-        }
-
-        public void Test()
-        {
-            Thread.Sleep(10000);
         }
     }
 }

@@ -1,14 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Core;
-using Serilog.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Mvc;
 using Snegir.Core.Entities;
 using Snegir.Core.Services.Contents;
-using Snegir.Core.Types;
-using Snegir.DAL;
+
 
 namespace Snegir.WebApp.Controllers
 {

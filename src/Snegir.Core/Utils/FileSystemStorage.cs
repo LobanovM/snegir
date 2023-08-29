@@ -11,7 +11,11 @@
 
         public IEnumerable<ContentFile> GetAllFilesInfo() 
         {
-            return Directory.GetFiles(_storagePath, "*", SearchOption.AllDirectories)
+            //TODO Need to logging
+            if (!Directory.Exists(_storagePath)) return Enumerable.Empty<ContentFile>();
+
+            return Directory.GetFiles(_storagePath, "*.*", SearchOption.AllDirectories)
+                .Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".bmp"))
                 .Select(f => new ContentFile(
                     Path.GetRelativePath(_storagePath, f),
                     new FileInfo(f))

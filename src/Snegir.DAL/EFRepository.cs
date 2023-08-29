@@ -63,5 +63,10 @@ namespace Snegir.DAL
             IQueryable<TEntity> query = _dbSet.AsNoTracking();
             return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
+
+        public IQueryable<T> SqlQueryRaw<T>(string sql, params object[] parameters)
+        {
+            return _context.Database.SqlQueryRaw<T>(sql, parameters);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Snegir.Core.Interfaces
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
         void Remove(TEntity item);
         void Update(TEntity item);
+        IQueryable<T> SqlQueryRaw<T>(string sql, params object[] parameters);
     }
 }

@@ -5,5 +5,7 @@ namespace Snegir.Core.Services.Contents
     public interface IContentService
     {
         Task<IEnumerable<Content>> GetAll();
+
+        Task UploadFromStorage();
     }
 }
