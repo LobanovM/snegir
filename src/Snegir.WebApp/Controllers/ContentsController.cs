@@ -17,20 +17,15 @@ namespace Snegir.WebApp.Controllers
     {
         private IContentService _service;
 
-
-        public ContentsController(ILogger<ContentsController> logger, IContentService service)
+        public ContentsController(IContentService service)
         {
             _service = service;
-            logger.LogInformation("ContentsController controller called ");
         }
 
         [HttpGet]
         public async Task<IEnumerable<Content>> Get()
         {
             var result = await _service.GetAll().ConfigureAwait(false);
-
-            var _serilogLogger = new LoggerConfiguration().CreateLogger();
-            _serilogLogger.Information("TEST INFO !!!!!!!!!!!!!!!!!");
 
             return result;
         }
