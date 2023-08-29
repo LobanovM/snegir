@@ -1,10 +1,10 @@
 ﻿namespace Snegir.Core.Utils
 {
-    public class FileStorage
+    public class FileSystemStorage
     {
         private readonly string _storagePath;
 
-        public FileStorage(string storagePath)
+        public FileSystemStorage(string storagePath)
         {
             _storagePath= storagePath;
         }

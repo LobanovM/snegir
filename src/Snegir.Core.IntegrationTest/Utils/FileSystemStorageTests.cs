@@ -2,7 +2,7 @@ using Snegir.Core.Utils;
 
 namespace Snegir.Core.IntegrationTest.Utils
 {
-    public class FileStorageTests
+    public class FileSystemStorageTests
     {
         [SetUp]
         public void Setup()
@@ -12,7 +12,7 @@ namespace Snegir.Core.IntegrationTest.Utils
         [Test]
         public void GetAllFilesInfo_CheckResult()
         {
-            var fileShare = new FileStorage("D:/Projects/snegir-data/file-storage");
+            var fileShare = new FileSystemStorage("D:/Projects/snegir-data/file-storage");
 
             var files = fileShare.GetAllFilesInfo();
 

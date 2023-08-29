@@ -7,6 +7,7 @@ namespace Snegir.DAL
     public class EFApplicationContext: DbContext
     {
         public DbSet<Content> Contents { get; set; } = null!;
+        public DbSet<Storage> Storages { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
