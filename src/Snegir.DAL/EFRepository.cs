@@ -16,34 +16,34 @@ namespace Snegir.DAL
             _dbSet = context.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TEntity>> Get()
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
             return await _dbSet.AsNoTracking().ToListAsync();
         }
 
-        public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.AsNoTracking().Where(predicate).ToList();
+            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
-        public TEntity FindById(int id)
+        public async Task<TEntity> FindById(int id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public void Create(TEntity item)
+        public async Task Create(TEntity item)
         {
-            _dbSet.Add(item);
-            _context.SaveChanges();
+            await _dbSet.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
-        public void Update(TEntity item)
+        public async Task Update(TEntity item)
         {
             _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Remove(TEntity item)
+        public async Task Remove(TEntity item)
         {
             _dbSet.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties)
@@ -64,9 +64,10 @@ namespace Snegir.DAL
             return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
 
-        public IQueryable<T> SqlQueryRaw<T>(string sql, params object[] parameters)
+        public IQueryable<TEntity> Get()
         {
-            return _context.Database.SqlQueryRaw<T>(sql, parameters);
+            return _dbSet;
         }
+        
     }
 }

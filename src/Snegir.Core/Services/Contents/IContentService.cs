@@ -6,6 +6,6 @@ namespace Snegir.Core.Services.Contents
     {
         Task<IEnumerable<Content>> GetAll();
 
-        Task UploadFromStorage();
+        Task UpdateFromStorages();
     }
 }

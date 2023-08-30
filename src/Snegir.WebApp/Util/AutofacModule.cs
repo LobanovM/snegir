@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Snegir.Core.Entities;
 using Snegir.Core.Interfaces;
+using Snegir.Core.Services;
 using Snegir.Core.Services.Contents;
 using Snegir.DAL;
 
@@ -11,9 +12,11 @@ namespace Snegir.WebApp.Util
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ContentService>().As<IContentService>();
+            builder.RegisterType<LogService>().As<ILogService>();
 
-            builder.RegisterType<EFRepository<Content>>().As<IRepository<Content>>().WithParameter("context", new EFApplicationContext());
-            builder.RegisterType<EFRepository<Storage>>().As<IRepository<Storage>>().WithParameter("context", new EFApplicationContext());
+            var context = new EFApplicationContext();
+            builder.RegisterType<EFRepository<Content>>().As<IRepository<Content>>().WithParameter("context", context);
+            builder.RegisterType<EFRepository<Storage>>().As<IRepository<Storage>>().WithParameter("context", context);
         }
     }
 }

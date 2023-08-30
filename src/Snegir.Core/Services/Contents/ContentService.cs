@@ -3,6 +3,7 @@ using Snegir.Core.Exceptions;
 using Snegir.Core.Interfaces;
 using Snegir.Core.Types;
 using Snegir.Core.Utils;
+using System.Collections.Generic;
 
 namespace Snegir.Core.Services.Contents
 {
@@ -12,15 +13,18 @@ namespace Snegir.Core.Services.Contents
 
         private readonly IRepository<Content> _repository;
         private readonly IRepository<Storage> _storageRepository;
+        private readonly ILogService _log;
 
         #endregion
 
         #region Constructors
 
-        public ContentService(IRepository<Content> repository, IRepository<Storage> storageRepository)
+        public ContentService(IRepository<Content> repository, IRepository<Storage> storageRepository,
+            ILogService logService)
         {
             _repository = repository;
             _storageRepository = storageRepository;
+            _log = logService;
         }
 
         #endregion
@@ -29,42 +33,69 @@ namespace Snegir.Core.Services.Contents
 
         public Content? GetFirstUnrated()
         {
-            return _repository.Get(c => c.Rating == Rating.None).FirstOrDefault();
+
+            return _repository.Get().FirstOrDefault(c => c.Rating == Rating.None);
         }
 
         public async Task<IEnumerable<Content>> GetAll()
         {
-            return await _repository.Get();
+            return await _repository.GetAll();
         }
 
-        public async Task UploadFromStorage()
+        public async Task UpdateFromStorages()
         {
-            var storages = await _storageRepository.Get();
+            _log.Information("Start update content from storages.");
+
+            var storages = await _storageRepository.GetAll();
             if (!storages.Any()) throw new SnegirException("Storages not found.");
 
             foreach (var storage in storages)
             {
+                _log.Information($"Update content from storage '{storage.Path}'.");
+
                 var fileSystemStorage = new FileSystemStorage(storage.Path);
                 var files = fileSystemStorage.GetAllFilesInfo().ToList();
 
-                if (!files.Any()) continue;
+                var filesCount = files.Count;
 
-                // Get new files
+                _log.Information($"{filesCount} files found.");
 
-                var sqlValues = $"('{string.Join("'), ('", files.Select(f => f.RelativePath))}')";
-                var notExistingPaths = _repository.SqlQueryRaw<string>($"""
-                    CREATE TEMP TABLE IF NOT EXISTS Files (Path text COLLATE pg_catalog."default" NOT NULL);
-                    INSERT INTO Files VALUES {sqlValues};
+                if (filesCount == 0) continue;
 
-                    SELECT Path FROM Files f
-                    LEFT JOIN "Contents" c ON c."StorageId" = {storage.Id} AND f.Path = c."FileStoragePath"
-                    WHERE c."Id" IS NULL;
-                    """).ToList();
+                var storedContent = await _repository.Get(c => c.StorageId == storage.Id);
 
-                var newFiles = files.Where(f => notExistingPaths.Contains(f.RelativePath));
+                var newFilePaths = files.Select(f => f.RelativePath.ToLower())
+                    .Except(storedContent.Select(c => c.StorageFilePath.ToLower()))
+                    .ToList();
 
-                // Get deleted files
+                _log.Information($"{newFilePaths.Count} files will be added.");
+
+                var newFiles = files.Where(f => newFilePaths.Contains(f.RelativePath)).ToList();
+                foreach (var newFile in newFiles)
+                {
+                    await _repository.Create(new Content
+                    {
+                        Name = newFile.Name,
+                        Rating = Rating.None,
+                        StorageId = storage.Id,
+                        StorageFilePath = newFile.RelativePath
+                    });
+                }
+
+                var nonExistFilePaths = storedContent.Select(c => c.StorageFilePath.ToLower())
+                    .Except(files.Select(f => f.RelativePath.ToLower()))
+                    .ToList();
+
+                _log.Information($"{nonExistFilePaths.Count} files will be deleted.");
+
+                var lostContents = storedContent.Where(c => nonExistFilePaths.Contains(c.StorageFilePath)).ToList();
+                foreach (var lostContent in lostContents)
+                {
+                    await _repository.Remove(lostContent);
+                }
             }
+
+            _log.Information("Complete update content from storages.");
         }
 
         #endregion

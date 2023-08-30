@@ -4,13 +4,13 @@ using Snegir.Core.Services.Contents;
 
 namespace Snegir.WebApp.Controllers
 {
-    public class HangfireController: ControllerBase
+    public class JobsController: ControllerBase
     {
         private IBackgroundJobClient _backgroundJobClient;
         private IRecurringJobManager _recurringJobManager;
         private IContentService _contentService;
 
-        public HangfireController(IBackgroundJobClient backgroundJobClient,
+        public JobsController(IBackgroundJobClient backgroundJobClient,
             IRecurringJobManager recurringJobManager, IContentService contentService)
         {
             _backgroundJobClient = backgroundJobClient;
@@ -19,10 +19,10 @@ namespace Snegir.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("UpdateFromStorage")]
-        public ActionResult UpdateFromStorage()
+        [Route("UpdateFromStorages")]
+        public ActionResult UpdateFromStorages()
         {
-            _backgroundJobClient.Enqueue(() => _contentService.UploadFromStorage());
+            _backgroundJobClient.Enqueue(() => _contentService.UpdateFromStorages());
             return Ok();
         }
     }

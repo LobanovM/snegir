@@ -10,11 +10,11 @@ namespace Snegir.Core.Entities
 
         public Rating Rating { get; set; }
 
-        public Storage Storage { get; set; }
+        public int StorageId { get; set; }
 
-        public string FileStoragePath { get; set; }
+        public Storage? Storage { get; set; }
 
-        public string FileExtension { get; set; }
+        public string StorageFilePath { get; set; }
 
         public Uri? Source { get; set; }
     }
