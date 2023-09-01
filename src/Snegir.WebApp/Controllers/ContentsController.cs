@@ -18,9 +18,14 @@ namespace Snegir.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Content>> Get()
         {
-            var result = await _service.GetAll().ConfigureAwait(false);
+            return await _service.GetAll().ConfigureAwait(false); ;
+        }
 
-            return result;
+        [HttpGet("first-unrated")]
+        public Content GetFirtsUnrated()
+        {
+            var content = _service.GetFirstUnrated();
+            return content;
         }
     }
 }

@@ -7,5 +7,7 @@ namespace Snegir.Core.Services.Contents
         Task<IEnumerable<Content>> GetAll();
 
         Task UpdateFromStorages();
+
+        Content? GetFirstUnrated();
     }
 }
