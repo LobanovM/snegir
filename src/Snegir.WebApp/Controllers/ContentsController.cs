@@ -22,10 +22,9 @@ namespace Snegir.WebApp.Controllers
         }
 
         [HttpGet("first-unrated")]
-        public Content GetFirtsUnrated()
+        public Content? GetFirtsUnrated()
         {
-            var content = _service.GetFirstUnrated();
-            return content;
+            return _service.GetFirstUnrated();
         }
     }
 }

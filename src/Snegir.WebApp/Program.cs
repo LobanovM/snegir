@@ -37,6 +37,7 @@ namespace Snegir.WebApp
                 builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
                 builder.Services.AddControllers();
                 builder.Services.AddSwaggerGen();
+                builder.Services.AddHangfireServer();
                 builder.Services.AddHangfire(config => config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
 
                 var app = builder.Build();
@@ -47,18 +48,14 @@ namespace Snegir.WebApp
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
-                app.UseHangfireServer();
+               
                 app.UseHangfireDashboard("/hangfire");
-
                 app.UseSerilogRequestLogging();
                 app.UseReact(config => { });
                 app.UseDefaultFiles();
                 app.UseStaticFiles();
-                app.UseRouting();
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
+                app.UseRouting(); // need to delete?
+                app.UseEndpoints(endpoints => endpoints.MapControllers());
 
                 app.Run();
 
