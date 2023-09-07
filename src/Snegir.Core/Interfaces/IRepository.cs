@@ -9,7 +9,7 @@ namespace Snegir.Core.Interfaces
         Task<TEntity> FindById(int id);
         Task<IEnumerable<TEntity>> GetAll();
         IQueryable<TEntity> Get();
-        Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
         Task Remove(TEntity item);
         Task Update(TEntity item);
     }

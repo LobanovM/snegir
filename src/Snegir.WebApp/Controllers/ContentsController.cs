@@ -18,13 +18,20 @@ namespace Snegir.WebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Content>> Get()
         {
-            return await _service.GetAll().ConfigureAwait(false); ;
+            return await _service.GetAll().ConfigureAwait(false);
         }
 
         [HttpGet("first-unrated")]
         public Content? GetFirtsUnrated()
         {
             return _service.GetFirstUnrated();
+        }
+
+        [HttpGet("image")]
+        public async Task<IActionResult> GetImage(int contentId)
+        {
+            var image = await _service.GetImage(contentId).ConfigureAwait(false);
+            return File(image, "image/jpeg");
         }
     }
 }

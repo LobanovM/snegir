@@ -9,5 +9,10 @@ namespace Snegir.WebApp.Util
         {
             Log.Information(message);
         }
+
+        public void Error(Exception ex, string message)
+        {
+            Log.Error(ex, message);
+        }
     }
 }

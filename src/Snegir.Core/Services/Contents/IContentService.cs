@@ -9,5 +9,7 @@ namespace Snegir.Core.Services.Contents
         Task UpdateFromStorages();
 
         Content? GetFirstUnrated();
+
+        Task<Stream> GetImage(int contentId);
     }
 }

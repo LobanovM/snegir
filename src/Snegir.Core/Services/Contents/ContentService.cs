@@ -3,7 +3,6 @@ using Snegir.Core.Exceptions;
 using Snegir.Core.Interfaces;
 using Snegir.Core.Types;
 using Snegir.Core.Utils;
-using System.Collections.Generic;
 
 namespace Snegir.Core.Services.Contents
 {
@@ -96,6 +95,24 @@ namespace Snegir.Core.Services.Contents
             }
 
             _log.Information("Complete update content from storages.");
+        }
+
+        public async Task<Stream> GetImage(int contentId)
+        {
+            try
+            {
+                var contents = await _repository.Get(c => c.Id.Equals(contentId), c => c.Storage!);
+                var content = contents.FirstOrDefault();
+                if (content == null || content.Storage == null) throw new SnegirException($"Content ID={contentId} not found.");
+                var imagePath = Path.Combine(content.Storage.Path, content.StorageFilePath);
+                var image = System.IO.File.OpenRead(imagePath);
+                return image;
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, $"Error during get image for content ID={contentId}.");
+                return Stream.Null;
+            }
         }
 
         #endregion

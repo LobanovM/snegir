@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Snegir.Core.Interfaces;
 using System.Linq.Expressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Snegir.DAL
 {
@@ -21,9 +22,11 @@ namespace Snegir.DAL
             return await _dbSet.AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+            if (includeProperties.Length == 0) return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+
+            return await includeProperties.Aggregate(_dbSet.AsNoTracking().Where(predicate), (current, includeProperty) => current.Include(includeProperty)).ToListAsync();
         }
         public async Task<TEntity> FindById(int id)
         {
