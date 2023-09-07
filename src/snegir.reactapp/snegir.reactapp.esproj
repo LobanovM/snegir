@@ -14,17 +14,10 @@
   <ItemGroup>
     <Folder Include="app\constants\" />
     <Folder Include="app\dispatcher\" />
-    <Folder Include="app\views\" />
     <Folder Include="public\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="index.html">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="app\views\AppView.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -40,5 +33,11 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptConfiguration Remove="app\views\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="app\views\**" />
   </ItemGroup>
 </Project>

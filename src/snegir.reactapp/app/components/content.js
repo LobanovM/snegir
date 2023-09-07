@@ -11,9 +11,8 @@ class Content extends React.Component {
     render() {
         return (
             <div>
-                <h3>Content</h3>
-                <p>{this.props.content.name}</p>
-                <img src={this.imageSrc} alt="Content image" />
+                <img className="img-fluid rounded" src={this.imageSrc} alt="Content image" />
+                <h3>{this.props.content.name}</h3>
             </div>
         );
     }

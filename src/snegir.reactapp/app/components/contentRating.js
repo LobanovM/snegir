@@ -1,6 +1,7 @@
 import React from "react";
 import ContentActions from '../actions/contentActions';
 import Content from "./content";
+import Rating from "./rating";
 import ContentStore from '../stores/contentStore';
 
 class ContentRating extends React.Component {
@@ -20,45 +21,47 @@ class ContentRating extends React.Component {
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
         ContentStore.addChangeListener(this._onChange);
         ContentActions.LoadFirstUnrated();
     }
 
     componentWillUnmount() {
-        console.log('componentWillUnmount');
         ContentStore.removeChangeListener(this._onChange);
     }
 
-    _updateState(event) {
+    /*_updateState(event) {
         let field = event.target.name;
         let value = event.target.value;
 
         this.state.content[field] = value;
         this.setState({ content: this.state.content });
-    }
+    }*/
 
     _updateContentRating(event) {
         event.preventDefault();
-        this.state.content.rating = this.state.content.rating || '0';
-        ContentActions.UpdateContentRating(this.state.content);
 
-        this.setState({
-            content: {
-                name: 'first-unrated',
-                rating: 0
-            } });
+        if (this.state.content.rating > 0) {
+            ContentActions.UpdateContentRating(this.state.content);
+        }
+
+    }
+
+    _updateRating(rating) {
+        console.log(rating);
+        this.state.content.rating = rating;
+        this.setState({ content: this.state.content });
     }
 
     render() {
         if (this.state.content) {
             return (
-                <div>
-                    <h3>Content rating</h3>
+                <div className="container py-4 px-3 mx-auto">
                     <form onSubmit={this._updateContentRating.bind(this)}>
                         <Content content={this.state.content} />
-                        <input type="text" name="rating" value={this.state.content.rating} placeholder="Rating" onChange={this._updateState.bind(this)} />
-                        <button type="submit">Save and next</button>
+                        <Rating value={this.state.content.rating} onChange={this._updateRating.bind(this)} />
+                        <div>
+                            <button className="btn btn-primary" type="submit" disabled={ this.state.content.rating === 0 }>Save and next</button>
+                        </div>
                     </form>
                 </div>
             );
