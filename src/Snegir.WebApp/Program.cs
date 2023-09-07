@@ -39,6 +39,7 @@ namespace Snegir.WebApp
                 builder.Services.AddSwaggerGen();
                 builder.Services.AddHangfireServer();
                 builder.Services.AddHangfire(config => config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
+                builder.Services.AddCors();
 
                 var app = builder.Build();
 
@@ -55,6 +56,7 @@ namespace Snegir.WebApp
                 app.UseDefaultFiles();
                 app.UseStaticFiles();
                 app.UseRouting(); // need to delete?
+                app.UseCors(builder => builder.AllowAnyOrigin());
                 app.UseEndpoints(endpoints => endpoints.MapControllers());
 
                 app.Run();
