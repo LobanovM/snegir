@@ -6,6 +6,7 @@ class Rating extends React.Component {
         super(props);
 
         this.state = this._getRating(this.props.value);
+        this.currentRating = this.props.value;
     }
 
     _getRating(rating) {
@@ -19,8 +20,9 @@ class Rating extends React.Component {
     }
 
     _updateRating(rating) {
-        this.setState(this._getRating(rating));
-        this.props.onChange(rating);
+        this.currentRating = (rating === this.currentRating) ? 0 : rating;
+        this.setState(this._getRating(this.currentRating));
+        this.props.onChange(this.currentRating);
     }
 
     render() {

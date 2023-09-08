@@ -54,12 +54,25 @@ class ContentRating extends React.Component {
 
     render() {
         if (this.state.content) {
+
+            let sourceButton = (this.state.content.source)
+                ? <a className="btn btn-secondary" href={this.state.content.source} target="_blank" >Source</a>
+                : <button className="btn btn-secondary" disabled>Source</button>;
+
             return (
-                <div className="container py-4 px-3 mx-auto">
+                <div className="container py-1 mx-auto">
                     <form onSubmit={this._updateContentRating.bind(this)}>
-                        <Content content={this.state.content} />
-                        <Rating value={this.state.content.rating} onChange={this._updateRating.bind(this)} />
-                        <div>
+                        <h2>New content</h2>
+                        <div className="p-3 text-light-emphasis bg-light-subtle border border-light-subtle rounded-3">
+                            <Content content={this.state.content} />
+                            <div className="d-inline">
+                                <Rating value={this.state.content.rating} onChange={this._updateRating.bind(this)} />
+                            </div>
+                            <div className="d-inline p-2">
+                                {sourceButton}
+                            </div>
+                        </div>
+                        <div className="py-2 px-1 text-center">
                             <button className="btn btn-primary" type="submit" disabled={ this.state.content.rating === 0 }>Save and next</button>
                         </div>
                     </form>
