@@ -19,14 +19,14 @@ namespace Snegir.DAL
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await _dbSet.AsNoTracking().ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            if (includeProperties.Length == 0) return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+            if (includeProperties.Length == 0) return await _dbSet.Where(predicate).ToListAsync();
 
-            return await includeProperties.Aggregate(_dbSet.AsNoTracking().Where(predicate), (current, includeProperty) => current.Include(includeProperty)).ToListAsync();
+            return await includeProperties.Aggregate(_dbSet.Where(predicate), (current, includeProperty) => current.Include(includeProperty)).ToListAsync();
         }
         public async Task<TEntity> FindById(int id)
         {
@@ -63,7 +63,7 @@ namespace Snegir.DAL
 
         private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> query = _dbSet.AsNoTracking();
+            IQueryable<TEntity> query = _dbSet;
             return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
 

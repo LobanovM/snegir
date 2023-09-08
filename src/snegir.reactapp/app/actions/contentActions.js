@@ -5,11 +5,22 @@ import axios from 'axios';
 class ContentActions {
 
     UpdateContentRating(content) {
-        // API cals
-        Dispatcher.dispatch({
-            actionType: ActionTypes.UPDATE_CONTENT_RATING,
-            payload: content
-        });
+        axios.post('http://localhost:5033/api/Contents/update-rating', {
+                contentId: content.id,
+                rating: content.rating
+            })
+            .then(response => {
+                Dispatcher.dispatch({
+                    actionType: ActionTypes.UPDATE_CONTENT_RATING,
+                    payload: content
+                });
+            })
+            .catch(error => {
+                Dispatcher.dispatch({
+                    actionType: ActionTypes.LOG_ERROR,
+                    payload: error.message
+                });
+            });
     }
 
     LoadFirstUnrated() {
@@ -21,7 +32,10 @@ class ContentActions {
                 });
             })
             .catch(error => {
-                console.log(error);
+                Dispatcher.dispatch({
+                    actionType: ActionTypes.LOG_ERROR,
+                    payload: error.message
+                });
             });
 
         

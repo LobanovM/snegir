@@ -3,6 +3,7 @@ import Dispatcher from '../dispatcher';
 import ActionTypes from '../constants';
 
 const CHANGE = 'CHANGE';
+const CHANGE_FIRST_UNRATED = 'CHANGE_FIRST_UNRATED';
 
 class ContentStore extends EventEmitter {
 
@@ -33,7 +34,7 @@ class ContentStore extends EventEmitter {
 
     _loadFirstUnrated(content) {
         this.firstUnratedContent = content;
-        this.emit(CHANGE);
+        this.emit(CHANGE_FIRST_UNRATED);
     }
 
     getFirstUnrated() {
@@ -46,6 +47,14 @@ class ContentStore extends EventEmitter {
 
     removeChangeListener(callback) {
         this.removeListener(CHANGE, callback);
+    }
+
+    addChangeFirstUnratedListener(callback) {
+        this.on(CHANGE_FIRST_UNRATED, callback);
+    }
+
+    removeChangeFirstUnratedListener(callback) {
+        this.removeListener(CHANGE_FIRST_UNRATED, callback);
     }
 }
 

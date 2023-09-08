@@ -56,7 +56,11 @@ namespace Snegir.WebApp
                 app.UseDefaultFiles();
                 app.UseStaticFiles();
                 app.UseRouting(); // need to delete?
-                app.UseCors(builder => builder.AllowAnyOrigin());
+                app.UseCors(builder => {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
                 app.UseEndpoints(endpoints => endpoints.MapControllers());
 
                 app.Run();

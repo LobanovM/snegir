@@ -32,7 +32,6 @@ namespace Snegir.Core.Services.Contents
 
         public Content? GetFirstUnrated()
         {
-
             return _repository.Get().FirstOrDefault(c => c.Rating == Rating.None);
         }
 
@@ -113,6 +112,13 @@ namespace Snegir.Core.Services.Contents
                 _log.Error(ex, $"Error during get image for content ID={contentId}.");
                 return Stream.Null;
             }
+        }
+
+        public async Task UpdateRating(int contentId, Rating rating)
+        {
+            var content = await _repository.FindById(contentId);
+            content.Rating = rating;
+            await _repository.Update(content);
         }
 
         #endregion

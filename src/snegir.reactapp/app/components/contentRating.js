@@ -1,8 +1,10 @@
 import React from "react";
 import ContentActions from '../actions/contentActions';
+import LogActions from '../actions/logActions';
 import Content from "./content";
 import Rating from "./rating";
 import ContentStore from '../stores/contentStore';
+import LogStore from '../stores/logStore';
 
 class ContentRating extends React.Component {
 
@@ -10,23 +12,39 @@ class ContentRating extends React.Component {
         super(props);
 
         this.state = {
-            content: null
+            content: undefined,
+            error: null
         };
 
         this._onChange = this._onChange.bind(this);
+        this._onChangeFirstUnrated = this._onChangeFirstUnrated.bind(this);
+        this._onLogChange = this._onLogChange.bind(this);
     }
 
     _onChange() {
-        this.setState({ content: ContentStore.getFirstUnrated() });
+        ContentActions.LoadFirstUnrated();
+    }
+
+    _onLogChange() {
+        this.setState({ error: LogStore.getLastError() });
+    }
+
+    _onChangeFirstUnrated() {
+        let content = ContentStore.getFirstUnrated();
+        this.setState({ content: content });
     }
 
     componentDidMount() {
+        LogStore.addChangeListener(this._onLogChange);
         ContentStore.addChangeListener(this._onChange);
+        ContentStore.addChangeFirstUnratedListener(this._onChangeFirstUnrated);
         ContentActions.LoadFirstUnrated();
     }
 
     componentWillUnmount() {
+        LogStore.removeChangeListener(this._onLogChange);
         ContentStore.removeChangeListener(this._onChange);
+        ContentStore.removeChangeFirstUnratedListener(this._onChangeFirstUnrated);
     }
 
     /*_updateState(event) {
@@ -47,12 +65,23 @@ class ContentRating extends React.Component {
     }
 
     _updateRating(rating) {
-        console.log(rating);
         this.state.content.rating = rating;
         this.setState({ content: this.state.content });
     }
 
+    _errorClsoe() {
+        LogActions.ClearErrors();
+    }
+
     render() {
+        let error = (this.state.error)
+            ? <div className="alert alert-danger alert-dismissible fade show" role="alert">{this.state.error}
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this._errorClsoe.bind(this)}>
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            : null;
+
         if (this.state.content) {
 
             let sourceButton = (this.state.content.source)
@@ -60,9 +89,9 @@ class ContentRating extends React.Component {
                 : <button className="btn btn-secondary" disabled>Source</button>;
 
             return (
-                <div className="container py-1 mx-auto">
+                <div className="container py-3 mx-auto">
+                    {error}
                     <form onSubmit={this._updateContentRating.bind(this)}>
-                        <h2>New content</h2>
                         <div className="p-3 text-light-emphasis bg-light-subtle border border-light-subtle rounded-3">
                             <Content content={this.state.content} />
                             <div className="d-inline">
@@ -79,9 +108,18 @@ class ContentRating extends React.Component {
                 </div>
             );
         }
+        else if (this.state.content === undefined) {
+            return (
+                <div className="container py-3 mx-auto">
+                    <div className="alert alert-danger" role="alert">Loading...</div>
+                </div>
+            );
+        }
         else {
             return (
-                <p>Loading...</p>
+                <div className="container py-3 mx-auto">
+                    <div className="alert alert-primary" role="alert">No new content.</div>
+                </div>
             );
         }
     }

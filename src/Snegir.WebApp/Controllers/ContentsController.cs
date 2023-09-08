@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Snegir.Core.Entities;
 using Snegir.Core.Services.Contents;
-
+using Snegir.WebApp.Dto;
 
 namespace Snegir.WebApp.Controllers
 {
@@ -22,9 +22,16 @@ namespace Snegir.WebApp.Controllers
         }
 
         [HttpGet("first-unrated")]
-        public Content? GetFirtsUnrated()
+        public ContentDto? GetFirtsUnrated()
         {
-            return _service.GetFirstUnrated();
+            var content = _service.GetFirstUnrated();
+            return content == null ? null : new ContentDto
+                {
+                    Id = content.Id,
+                    Name = content.Name,
+                    Rating = content.Rating,
+                    Source = content.Source
+                };
         }
 
         [HttpGet("image")]
@@ -32,6 +39,12 @@ namespace Snegir.WebApp.Controllers
         {
             var image = await _service.GetImage(contentId).ConfigureAwait(false);
             return File(image, "image/jpeg");
+        }
+
+        [HttpPost("update-rating")]
+        public async Task UpdateRating([FromBody]UpdateRatingDto data)
+        {
+            await _service.UpdateRating(data.ContentId, data.Rating).ConfigureAwait(false);
         }
     }
 }
