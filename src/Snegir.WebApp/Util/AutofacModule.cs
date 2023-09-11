@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.EntityFrameworkCore;
 using Snegir.Core.Entities;
 using Snegir.Core.Interfaces;
 using Snegir.Core.Services;
@@ -11,12 +12,22 @@ namespace Snegir.WebApp.Util
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.Register(c =>
+            {
+                var config = c.Resolve<IConfiguration>();
+
+                var opt = new DbContextOptionsBuilder<EFApplicationContext>();
+                opt.UseNpgsql(config.GetSection("ConnectionStrings:SnegirDatabase").Value);
+
+                return new EFApplicationContext(opt.Options);
+            }).AsSelf().InstancePerLifetimeScope();
+
             builder.RegisterType<ContentService>().As<IContentService>();
             builder.RegisterType<LogService>().As<ILogService>();
 
-            var context = new EFApplicationContext();
-            builder.RegisterType<EFRepository<Content>>().As<IRepository<Content>>().WithParameter("context", context);
-            builder.RegisterType<EFRepository<Storage>>().As<IRepository<Storage>>().WithParameter("context", context);
+            
+            builder.RegisterType<EFRepository<Content>>().As<IRepository<Content>>();
+            builder.RegisterType<EFRepository<Storage>>().As<IRepository<Storage>>();
         }
     }
 }

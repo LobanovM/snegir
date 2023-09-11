@@ -8,8 +8,8 @@ namespace Snegir.DAL
     public class EFRepository<TEntity>: IRepository<TEntity>
         where TEntity : class
     {
-        DbContext _context;
-        DbSet<TEntity> _dbSet;
+        private readonly DbContext _context;
+        private readonly DbSet<TEntity> _dbSet;
 
         public EFRepository(EFApplicationContext context)
         {
