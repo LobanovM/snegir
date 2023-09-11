@@ -110,15 +110,17 @@ class ContentRating extends React.Component {
         }
         else if (this.state.content === undefined) {
             return (
-                <div className="container py-3 mx-auto">
-                    <div className="alert alert-danger" role="alert">Loading...</div>
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border m-5" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             );
         }
         else {
             return (
                 <div className="container py-3 mx-auto">
-                    <div className="alert alert-primary" role="alert">No new content.</div>
+                    <div className="alert alert-success" role="alert">No new content.</div>
                 </div>
             );
         }

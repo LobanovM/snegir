@@ -107,10 +107,13 @@ namespace Snegir.Core.Services.Contents
                 var image = System.IO.File.OpenRead(imagePath);
                 return image;
             }
-            catch (Exception ex)
+            catch (DirectoryNotFoundException ex)
             {
-                _log.Error(ex, $"Error during get image for content ID={contentId}.");
-                return Stream.Null;
+                throw new SnegirException("Storage is unavailable.", ex);
+            }
+            catch
+            {
+                throw;
             }
         }
 
