@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\app\actions\contentActions.js" />
+    <Content Remove="wwwroot\app\actions\logActions.js" />
+    <Content Remove="wwwroot\app\components\app.js" />
+    <Content Remove="wwwroot\app\components\content.js" />
+    <Content Remove="wwwroot\app\components\contentRating.js" />
+    <Content Remove="wwwroot\app\components\rating.js" />
+    <Content Remove="wwwroot\app\constants\index.js" />
+    <Content Remove="wwwroot\app\dispatcher\index.js" />
+    <Content Remove="wwwroot\app\index.js" />
+    <Content Remove="wwwroot\app\stores\contentStore.js" />
+    <Content Remove="wwwroot\app\stores\logStore.js" />
+    <Content Remove="wwwroot\scss\styles.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="7.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Hangfire" Version="1.8.5" />
@@ -31,5 +46,28 @@
     <ProjectReference Include="..\Snegir.Core\Snegir.Core.csproj" />
     <ProjectReference Include="..\Snegir.DAL\Snegir.DAL.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\public\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\app\actions\contentActions.js" />
+    <None Include="wwwroot\app\actions\logActions.js" />
+    <None Include="wwwroot\app\components\app.js" />
+    <None Include="wwwroot\app\components\content.js" />
+    <None Include="wwwroot\app\components\contentRating.js" />
+    <None Include="wwwroot\app\components\rating.js" />
+    <None Include="wwwroot\app\constants\index.js" />
+    <None Include="wwwroot\app\dispatcher\index.js" />
+    <None Include="wwwroot\app\index.js" />
+    <None Include="wwwroot\app\stores\contentStore.js" />
+    <None Include="wwwroot\app\stores\logStore.js" />
+    <None Include="wwwroot\scss\styles.scss" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="npm run build" />
+  </Target>
 
 </Project>
